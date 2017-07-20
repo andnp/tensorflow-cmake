@@ -80,7 +80,7 @@ if [ ! -e ${BUILD_DIR}/tensorflow-github ]; then
         tar xzf ./tensorflow-github.tgz || fail
     fi
 else
-    cd ${BUILD_DIR}/tensorflow-github; git fetch --all && git reset --hard origin/master
+    cd ${BUILD_DIR}/tensorflow-github; git pull
 fi
 
 ####################################################################
