@@ -42,9 +42,6 @@ if [ ${#} -lt 2 ]; then
     exit 0
 fi
 
-if [ -e ${INSTALL_DIR}/.done ]; then
-    exit 0
-fi
 
 # create the directorie if they don't already exist
 mkdir -p "${1}" || fail
@@ -54,6 +51,9 @@ BUILD_DIR=$(readlink -f "${1}")
 INSTALL_DIR=$(readlink -f "${2}")
 CACHE_DIR=${INSTALL_DIR}/cache
 
+if [ -e ${INSTALL_DIR}/.done ]; then
+    exit 0
+fi
 # install required packages
 #install_packages git autoconf build-essential automake libtool curl \
 #                 make g++ unzip python-numpy swig \
