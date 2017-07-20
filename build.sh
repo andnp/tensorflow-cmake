@@ -102,12 +102,12 @@ cc_binary(
 )
 EOF
 #
+    ./configure
 else
     cd ${BUILD_DIR}/tensorflow-github; git pull
 fi
 
 
-./configure
 
 #expect configure_script.exp
 #./configure < configure_answers.txt
