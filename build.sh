@@ -67,7 +67,6 @@ CACHE_DIR=${INSTALL_DIR}/cache
 #
 mkdir -p ${INSTALL_DIR}/{include,lib,bin,share,cache}
 mkdir -p ${INSTALL_DIR}/share/cmake/Modules
-rm -rf ${BUILD_DIR}
 mkdir -p ${BUILD_DIR}
 
 cd ${BUILD_DIR}
