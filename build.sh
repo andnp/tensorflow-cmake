@@ -51,11 +51,11 @@ INSTALL_DIR=$(readlink -f "${2}")
 CACHE_DIR=${INSTALL_DIR}/cache
 
 # install required packages
-install_packages git autoconf build-essential automake libtool curl \
-                 make g++ unzip python-numpy swig \
-                 python-dev python-wheel openjdk-8-jdk \
-                 pkg-config zip zlib1g-dev wget libcupti-dev || fail
-install_bazel || fail
+#install_packages git autoconf build-essential automake libtool curl \
+#                 make g++ unzip python-numpy swig \
+#                 python-dev python-wheel openjdk-8-jdk \
+#                 pkg-config zip zlib1g-dev wget libcupti-dev || fail
+#install_bazel || fail
 
 
 ####################################################################
