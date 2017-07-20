@@ -79,17 +79,13 @@ if [ ! -e ${BUILD_DIR}/tensorflow-github ]; then
         cp ${CACHE_DIR}/tensorflow-github.tgz . || fail
         tar xzf ./tensorflow-github.tgz || fail
     fi
-else
-    cd ${BUILD_DIR}/tensorflow-github; git pull
-fi
-
 ####################################################################
 # This specifies a new build rule, producing libtensorflow_all.so,
 # that includes all the required dependencies for integration with
 # a C++ project.
 # Build the shared library and copy it to $INSTALLDIR
 cd ${BUILD_DIR}/tensorflow-github
-cat <<EOF >> tensorflow/BUILD
+    cat <<EOF >> tensorflow/BUILD
 # Added build rule
 cc_binary(
     name = "libtensorflow_all.so",
@@ -105,6 +101,11 @@ cc_binary(
     ],
 )
 EOF
+#
+else
+    cd ${BUILD_DIR}/tensorflow-github; git pull
+fi
+
 
 ./configure
 
