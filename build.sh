@@ -71,14 +71,17 @@ mkdir -p ${BUILD_DIR}
 
 cd ${BUILD_DIR}
 
-if [ ! -e ${CACHE_DIR}/tensorflow-github.tgz ]; then
-    git clone https://github.com/tensorflow/tensorflow tensorflow-github || fail
-    tar czf ${CACHE_DIR}/tensorflow-github.tgz tensorflow-github || fail
+if [ ! -e ${BUILD_DIR}/tensorflow-github ]; then
+    if [ ! -e ${CACHE_DIR}/tensorflow-github.tgz ]; then
+        git clone https://github.com/tensorflow/tensorflow tensorflow-github || fail
+        tar czf ${CACHE_DIR}/tensorflow-github.tgz tensorflow-github || fail
+    else
+        cp ${CACHE_DIR}/tensorflow-github.tgz . || fail
+        tar xzf ./tensorflow-github.tgz || fail
+    fi
 else
-    cp ${CACHE_DIR}/tensorflow-github.tgz . || fail
-    tar xzf ./tensorflow-github.tgz || fail
+    cd ${BUILD_DIR}/tensorflow-github; git fetch --all && git reset --hard origin/master
 fi
-
 
 ####################################################################
 # This specifies a new build rule, producing libtensorflow_all.so,
