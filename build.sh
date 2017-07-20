@@ -18,10 +18,10 @@ fail () {
 install_packages () {
     for PKG in ${*}; do
         if ! dpkg -l ${PKG} > /dev/null 2>&1; then
-            apt-get -y install ${PKG} || fail
+            sudo apt-get -y install ${PKG} || fail
         fi
     done
-    apt-get update -y
+    sudo apt-get update -y
 }
 
 install_bazel () {
@@ -114,7 +114,7 @@ fi
 bazel build --config=opt tensorflow:libtensorflow_all.so || fail
 
 # copy the library to the install directory
-cp bazel-bin/tensorflow/libtensorflow_all.so ${INSTALL_DIR}/lib || fail
+cp bazel-bin/tensorflow/libtensorflow_all.so ${INSTALL_DIR}/lib
 
 # Copy the source to $INSTALL_DIR/include/google and remove unneeded items:
 mkdir -p ${INSTALL_DIR}/include/google/tensorflow
