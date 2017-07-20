@@ -43,7 +43,7 @@ if [ ${#} -lt 2 ]; then
 fi
 
 if [ -e ${INSTALL_DIR}/.done ]; then
-    exit(0)
+    exit 0
 fi
 
 # create the directorie if they don't already exist
