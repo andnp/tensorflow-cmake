@@ -42,6 +42,10 @@ if [ ${#} -lt 2 ]; then
     exit 0
 fi
 
+if [ -e ${INSTALL_DIR}/.done ]; then
+    exit(0)
+fi
+
 # create the directorie if they don't already exist
 mkdir -p "${1}" || fail
 mkdir -p "${2}" || fail
@@ -147,3 +151,5 @@ ${SCRIPT_DIR}/eigen.sh install "${BUILD_DIR}/tensorflow-github" "${INSTALL_DIR}"
 ${SCRIPT_DIR}/protobuf.sh install "${BUILD_DIR}/tensorflow-github" "${INSTALL_DIR}" "${INSTALL_DIR}/cache"
 # protobuf.sh generate installed <tensorflow-root> [<cmake-dir> <install-dir>]
 #${SCRIPT_DIR}/protobuf.sh generate installed "${BUILD_DIR}/tensorflow-github" "${INSTALL_DIR}/share/cmake" "${INSTALL_DIR}"
+
+touch ${INSTALL_DIR}/.done
