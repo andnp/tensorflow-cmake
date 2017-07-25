@@ -47,8 +47,8 @@ fi
 mkdir -p "${1}" || fail
 mkdir -p "${2}" || fail
 
-BUILD_DIR=$(readlink -f "${1}")
-INSTALL_DIR=$(readlink -f "${2}")
+BUILD_DIR=`perl -e 'use Cwd "abs_path";print abs_path(shift)' $1`
+INSTALL_DIR=`perl -e 'use Cwd "abs_path";print abs_path(shift)' $2`
 CACHE_DIR=${INSTALL_DIR}/cache
 
 if [ -e ${INSTALL_DIR}/.done ]; then
