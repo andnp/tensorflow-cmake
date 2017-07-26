@@ -74,6 +74,10 @@ mkdir -p ${INSTALL_DIR}/share/cmake/Modules
 mkdir -p ${BUILD_DIR}
 
 cd ${BUILD_DIR}
+linkopts='linkopts = ["-Wl,--version-script=tensorflow/tf_version_script.lds"],'
+if [[ `uname` == 'Darwin' ]]; then
+    linkopts=""
+fi
 
 if [ ! -e ${BUILD_DIR}/tensorflow-github ]; then
     if [ ! -e ${CACHE_DIR}/tensorflow-github.tgz ]; then
@@ -83,18 +87,19 @@ if [ ! -e ${BUILD_DIR}/tensorflow-github ]; then
         cp ${CACHE_DIR}/tensorflow-github.tgz . || fail
         tar xzf ./tensorflow-github.tgz || fail
     fi
-####################################################################
-# This specifies a new build rule, producing libtensorflow_all.so,
-# that includes all the required dependencies for integration with
-# a C++ project.
-# Build the shared library and copy it to $INSTALLDIR
-cd ${BUILD_DIR}/tensorflow-github
+
+    ####################################################################
+    # This specifies a new build rule, producing libtensorflow_all.so,
+    # that includes all the required dependencies for integration with
+    # a C++ project.
+    # Build the shared library and copy it to $INSTALLDIR
+    cd ${BUILD_DIR}/tensorflow-github
     cat <<EOF >> tensorflow/BUILD
 # Added build rule
 cc_binary(
     name = "libtensorflow_all.so",
     linkshared = 1,
-    linkopts = ["-Wl,--version-script=tensorflow/tf_version_script.lds"], # if use Mac remove this line
+    ${linkopts} # if use Mac remove this line
     deps = [
         "//tensorflow/cc:cc_ops",
         "//tensorflow/core:framework_internal",
@@ -142,13 +147,13 @@ rm -rf ${INSTALL_DIR}/include/google/tensorflow/third_party/avro
 
 # Install eigen
 # eigen.sh install <tensorflow-root> [<install-dir> <download-dir>]
-${SCRIPT_DIR}/eigen.sh install "${BUILD_DIR}/tensorflow-github" "${INSTALL_DIR}" "${INSTALL_DIR}/cache"
+# ${SCRIPT_DIR}/eigen.sh install "${BUILD_DIR}/tensorflow-github" "${INSTALL_DIR}" "${INSTALL_DIR}/cache"
 # eigen.sh generate installed <tensorflow-root> [<cmake-dir> <install-dir>]
 #${SCRIPT_DIR}/eigen.sh generate external "${BUILD_DIR}/tensorflow-github" "${INSTALL_DIR}/share/cmake" "${INSTALL_DIR}"
 
 # Install protobuf
 # protobuf.sh install <tensorflow-root> [<cmake-dir>]
-${SCRIPT_DIR}/protobuf.sh install "${BUILD_DIR}/tensorflow-github" "${INSTALL_DIR}" "${INSTALL_DIR}/cache"
+# ${SCRIPT_DIR}/protobuf.sh install "${BUILD_DIR}/tensorflow-github" "${INSTALL_DIR}" "${INSTALL_DIR}/cache"
 # protobuf.sh generate installed <tensorflow-root> [<cmake-dir> <install-dir>]
 #${SCRIPT_DIR}/protobuf.sh generate installed "${BUILD_DIR}/tensorflow-github" "${INSTALL_DIR}/share/cmake" "${INSTALL_DIR}"
 
